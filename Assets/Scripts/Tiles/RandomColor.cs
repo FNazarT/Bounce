@@ -43,21 +43,21 @@ public class RandomColor : MonoBehaviour
         myRenderer.material = materials[newRandom];
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Player") && collisionCount < 1)
-        {
-            collisionCount++;
-            StopCoroutine(nameof(RandomMaterial));
-            myColor = myRenderer.sharedMaterial.name;
-            //SEND COLOR OF PLATFORM TO INCREASE OR DECREASE THE SCORE
-            if (myColor == "Green")
-            {
-                print(myColor);     
-            }
-            Invoke(nameof(FallingPlatform), 2f);
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.CompareTag("Player") && collisionCount < 1)
+    //    {
+    //        collisionCount++;
+    //        StopCoroutine(nameof(RandomMaterial));
+    //        myColor = myRenderer.sharedMaterial.name;
+    //        //SEND COLOR OF PLATFORM TO INCREASE OR DECREASE THE SCORE
+    //        if (myColor == "Green")
+    //        {
+    //            print(myColor);     
+    //        }
+    //        Invoke(nameof(FallingPlatform), 2f);
+    //    }
+    //}
 
     private void FallingPlatform()
     {

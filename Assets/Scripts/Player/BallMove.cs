@@ -1,28 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BallMove : MonoBehaviour
 {
-    [SerializeField] private float h, v, longMove = 14f, shortMove = 7;
-    private float moveSpeed;
+    [SerializeField] private float moveSpeed;
     private Rigidbody rb;
+    private Vector2 inputVector;
+    private Vector3 direction;
+    private InputSystemActions inputSystem;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        h = Input.GetAxis("Horizontal");
-        v = Input.GetAxis("Vertical");
-
-        moveSpeed = Input.GetKey(KeyCode.Space) ? longMove : shortMove;
+        inputSystem = new InputSystemActions();
+        inputSystem.Player.Enable();
+        inputSystem.Player.Move.performed += Move;
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector3(h * moveSpeed, rb.velocity.y, v * moveSpeed);
+        rb.AddForce(direction * moveSpeed, ForceMode.Impulse);
+        direction = Vector3.zero;
+    }
+
+    private void Move(InputAction.CallbackContext context)
+    {
+        inputVector = context.ReadValue<Vector2>();
+        direction = new Vector3(inputVector.x, 0f, inputVector.y).normalized;
     }
 }
